@@ -14,24 +14,29 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const spinner = document.getElementById("loading-spinner");
 
-    function showLoading() { if (spinner) spinner.style.display = 'block'; }
-    function hideLoading() { if (spinner) spinner.style.display = 'none'; }
+    function showLoading() {
+         if (spinner)
+             spinner.style.display = 'block';
+             }
+    function hideLoading() {
+         if (spinner)
+             spinner.style.display = 'none';
+             }
 
     function clearUI() {
         summaryMessage.textContent = "";
         alertList.innerHTML = "";
-        errorMessage.textContent = ""; // Clears the error text
+        errorMessage.textContent = "";
+        errorMessage.classList.add("hidden"); 
     }
 
     async function fetchWeatherAlerts() {
         const state = stateInput.value.trim().toUpperCase();
 
         if (state.length !== 2 || !isNaN(state)) {
-            throw new Error("Please enter a valid 2-letter state abbreviation (e.g., NY).");
+            throw new Error("");
         }
 
-        errorMessage.textContent = ""; 
-        
         clearUI();
         stateInput.value = ""; 
         showLoading();
@@ -63,8 +68,8 @@ document.addEventListener("DOMContentLoaded", function() {
     fetchButton.addEventListener("click", function() {
         fetchWeatherAlerts().catch(errorObject => {
             hideLoading(); 
-            errorMessage.style.color = 'red';
-            errorMessage.textContent = errorObject.message; // Display the error text
+            errorMessage.textContent = errorObject.message;
+            errorMessage.classList.remove("hidden"); 
         });
     });
 });
